@@ -1,20 +1,26 @@
-FUNCTION LongestPalindrome(string s)
-  length := len(s)
-  IF length < 2 THEN
-    RETURN s
-  start := 0
-  end := 0
-  FOR i := 0 TO length - 1 DO
-    len1 := ExpandAroundCenter(s, i, i)  // odd-length palindrome
-    len2 := ExpandAroundCenter(s, i, i + 1)  // even-length palindrome
-    maxLength := MAX(len1, len2)
-    IF maxLength > (end - start) THEN
-      start := i - (maxLength - 1) DIV 2
-      end := i + maxLength DIV 2
-  RETURN substring(s, start, end + 1)
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
-FUNCTION ExpandAroundCenter(string s, int left, int right)
-  WHILE left >= 0 AND right < len(s) AND s[left] = s[right] DO
-    left := left - 1
-    right := right + 1
-  RETURN right - left - 1
+bool isPalindrome(char str[], int start, int end) {
+    if (start >= end) {
+        return true;
+    }
+    if (str[start] != str[end]) {
+        return false;
+    }
+    return isPalindrome(str, start + 1, end - 1);
+}
+
+int main() {
+    char str[] = "madam";
+    int len = strlen(str);
+    
+    if (isPalindrome(str, 0, len - 1)) {
+        printf("%s is a palindrome.", str);
+    } else {
+        printf("%s is not a palindrome.", str);
+    }
+    
+    return 0;
+}
